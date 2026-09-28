@@ -85,12 +85,19 @@ class AppPrincipal:
         btn_frame = tk.Frame(self.root)
         btn_frame.pack(pady=10)
 
+        # Botón Guardar
         tk.Button(btn_frame, text="Guardar / Crear", command=self.guardar, bg="#d4edda", width=15).pack(side=tk.LEFT, padx=5)
         
+        # Botón Eliminar (Deshabilitado si no tiene permiso)
         btn_eliminar = tk.Button(btn_frame, text="Eliminar", command=self.eliminar, bg="#f8d7da", width=15)
         if not usuario.puede_eliminar(): 
             btn_eliminar.config(state=tk.DISABLED)
         btn_eliminar.pack(side=tk.LEFT, padx=5)
+
+        btn_vaciar = tk.Button(btn_frame, text="Vaciar BD", command=self.vaciar_base_datos, bg="#f5c6cb", width=15)
+        if not getattr(usuario, 'puede_vaciar', lambda: False)():
+            btn_vaciar.config(state=tk.DISABLED)
+        btn_vaciar.pack(side=tk.LEFT, padx=5)
 
         columnas = ("rut", "nombre", "correo", "telefono", "rol")
         self.tabla = ttk.Treeview(self.root, columns=columnas, show="headings", height=10)
@@ -125,7 +132,6 @@ class AppPrincipal:
             tipo_rol = self.rol_var.get()
 
             rol_actual = self.usuario.rol
-
             if rol_actual == "Regular" and tipo_rol != "Regular":
                 raise ErrorGestionCliente("Un cliente Regular solo puede crear cuentas de tipo Regular.")
             elif rol_actual == "Premium" and tipo_rol not in ["Regular", "Premium"]:
@@ -170,7 +176,6 @@ class AppPrincipal:
             if rol_actual == "Premium" and rol_a_eliminar in ["Premium", "Corporativo", "AdminMain"]:
                 raise ErrorGestionCliente("Una cuenta Premium solo puede eliminar cuentas de tipo Regular.")
 
-
             if rol_actual == "Corporativo" and rol_a_eliminar in ["Corporativo", "AdminMain"]:
                 raise ErrorGestionCliente("Una cuenta Corporativa no puede eliminar administradores ni otros clientes corporativos.")
 
@@ -183,6 +188,16 @@ class AppPrincipal:
             messagebox.showerror("Permisos Insuficientes", str(e))
         except Exception as e:
             messagebox.showerror("Error Inesperado", f"No se pudo eliminar: {str(e)}")
+
+    def vaciar_base_datos(self):
+        confirmacion = messagebox.askokcancel(
+            "¡ATENCIÓN!", 
+            "¿Está completamente seguro de vaciar TODA la base de datos?\nEsta acción no se puede deshacer."
+        )
+        if confirmacion:
+            GestorPersistencia.vaciar_bd()
+            messagebox.showinfo("Éxito", "Base de datos vaciada correctamente.")
+            self.actualizar_lista()
 
     def actualizar_lista(self):
         for elemento in self.tabla.get_children():
