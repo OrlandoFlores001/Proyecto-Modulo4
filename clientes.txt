@@ -1,0 +1,10 @@
+11223344 | Carlos Pérez | cperez@macha.com | 922222222 | 123456 | Corporativo
+184217538 | Lucia Fernanda | lucifer@gmail.com | 96325874 | 123456 | AdminMain
+15987642 | Sofía Valdés | svaldes@gmail.com | 933333333 | 123456 | Premium
+17456321 | Esteban Morales | emorales@gmail.com | 944444444 | 123456 | Regular
+19888777 | Valentina Soto | vsoto@corporativo.cl | 955555555 | 123456 | Corporativo
+14222333 | Roberto Gómez | rgomez@gmail.com | 977777777 | 123456 | Regular
+20111222 | Camila Fuentes | cfuentes@gmail.com | 988888888 | 123456 | Premium
+854697123 | Patricia Ruz | pruz@gmail.com | 965321456 | 123456 | Corporativo
+11111111 | Prueba Prueba | prueba@gmail.com | 222222222 | 123456 | Premium
+33333333 | Prueba Prueba2 | prueba2@gmail.com | 444444444 | 123456 | Premium
